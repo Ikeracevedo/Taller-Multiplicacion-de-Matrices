@@ -1,0 +1,118 @@
+import time
+import tracemalloc
+import csv
+import random
+
+# --------------------------------------
+# FUNCIONES DE MULTIPLICACIÓN
+# --------------------------------------
+
+def naive_multiply(A, B):
+    n = len(A)
+    result = [[0] * n for _ in range(n)]
+    for i in range(n):
+        for j in range(n):
+            for k in range(n):
+                result[i][j] += A[i][k] * B[k][j]
+    return result   
+
+def add_matrix(A, B):
+    n = len(A)
+    return [[A[i][j] + B[i][j] for j in range(n)] for i in range(n)]
+
+def sub_matrix(A, B):
+    n = len(A)
+    return [[A[i][j] - B[i][j] for j in range(n)] for i in range(n)]
+
+def split_matrix(M):
+    n = len(M)
+    mid = n // 2
+    A11 = [row[:mid] for row in M[:mid]]
+    A12 = [row[mid:] for row in M[:mid]]
+    A21 = [row[:mid] for row in M[mid:]]
+    A22 = [row[mid:] for row in M[mid:]]
+    return A11, A12, A21, A22
+
+def join_matrix(C11, C12, C21, C22):
+    top = [a + b for a, b in zip(C11, C12)]
+    bottom = [a + b for a, b in zip(C21, C22)]
+    return top + bottom
+
+def strassen_multiply(A, B):
+    n = len(A)
+    if n == 1:
+        return [[A[0][0] * B[0][0]]]
+    A11, A12, A21, A22 = split_matrix(A)
+    B11, B12, B21, B22 = split_matrix(B)
+
+    M1 = strassen_multiply(add_matrix(A11, A22), add_matrix(B11, B22))
+    M2 = strassen_multiply(add_matrix(A21, A22), B11)
+    M3 = strassen_multiply(A11, sub_matrix(B12, B22))
+    M4 = strassen_multiply(A22, sub_matrix(B21, B11))
+    M5 = strassen_multiply(add_matrix(A11, A12), B22)
+    M6 = strassen_multiply(sub_matrix(A21, A11), add_matrix(B11, B12))
+    M7 = strassen_multiply(sub_matrix(A12, A22), add_matrix(B21, B22))
+
+    C11 = add_matrix(sub_matrix(add_matrix(M1, M4), M5), M7)
+    C12 = add_matrix(M3, M5)
+    C21 = add_matrix(M2, M4)
+    C22 = add_matrix(sub_matrix(add_matrix(M1, M3), M2), M6)
+
+    return join_matrix(C11, C12, C21, C22)
+
+# --------------------------------------
+# UTILIDADES
+# --------------------------------------
+
+def generate_matrix(n):
+    return [[random.randint(0, 9) for _ in range(n)] for _ in range(n)]
+
+def benchmark(name, func, A, B):
+    tracemalloc.start()
+    start_time = time.time()
+    result = func(A, B)
+    end_time = time.time()
+    current, peak = tracemalloc.get_traced_memory()
+    tracemalloc.stop()
+    tiempo_ms = (end_time - start_time) * 1000
+    memoria_mb = peak / 1024 / 1024
+    print(f"{name}:\tTiempo = {tiempo_ms:.2f} ms, Memoria = {memoria_mb:.2f} MB")
+    return result, tiempo_ms, memoria_mb
+
+def verify_result(R1, R2):
+    return R1 == R2
+
+def guardar_csv(nombre, fila, encabezados=False):
+    modo = 'w' if encabezados else 'a'
+    with open(nombre, modo, newline='') as archivo:
+        writer = csv.writer(archivo)
+        if encabezados:
+            writer.writerow(["Tamaño (n)", "Algoritmo", "Lenguaje", "Tiempo (ms)", "Memoria (MB)"])
+        writer.writerow(fila)
+
+# --------------------------------------
+# BLOQUE PRINCIPAL
+# --------------------------------------
+
+if __name__ == "__main__":
+    lenguaje = "Python"
+    tamaños = [64, 128, 256, 512, 1024]
+    archivo_resultados = "resultados.csv"
+
+    for i, n in enumerate(tamaños):
+        print(f"\n🔬 Probando tamaño n = {n}")
+        A = generate_matrix(n)
+        B = generate_matrix(n)
+
+        C_naive, t_naive, m_naive = benchmark("Naive", naive_multiply, A, B)
+        guardar_csv(archivo_resultados, [n, 'Naive', lenguaje, round(t_naive, 2), round(m_naive, 2)], encabezados=(i==0))
+
+        C_strassen, t_strassen, m_strassen = benchmark("Strassen", strassen_multiply, A, B)
+        guardar_csv(archivo_resultados, [n, 'Strassen', lenguaje, round(t_strassen, 2), round(m_strassen, 2)])
+
+        if verify_result(C_naive, C_strassen):
+            print("✅ Resultados coinciden")
+        else:
+            print("❌ Resultados diferentes")
+
+
