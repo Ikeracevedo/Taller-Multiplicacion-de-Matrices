@@ -30,7 +30,7 @@ Contenido del Repositorio
     
 *   **/c/**Naive.c: Algoritmo ingenuo en C, solicita tamaño de matriz, imprime resultado (si es pequeño), reporta tiempo y memoria.Strassen.c: Implementación recursiva de Strassen en C con manejo manual de memoria y padding para tamaños no potencias de 2.
     
-*   **/cpp/**Naive (1).cpp: Naive con vectores en C++, similar a C pero con vectores y chrono para medición de tiempo.Strassen.cpp: Strassen en C++ con vectores y medición con chrono, padding interno para potencia de 2.
+*   **/cpp/**Naive.cpp: Naive con vectores en C++, similar a C pero con vectores y chrono para medición de tiempo.Strassen.cpp: Strassen en C++ con vectores y medición con chrono, padding interno para potencia de 2.
     
 
 Descripción General de los Algoritmos
@@ -57,7 +57,8 @@ Detalle por Lenguaje y Archivos
 
 **Compilar y ejecutar:**
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   bashjavac ArquiEjercicio.java  java ArquiEjercicio   `
+javac ArquiEjercicio.java
+java ArquiEjercicio`
 
 ### C — Naive.c y Strassen.c
 
@@ -70,7 +71,10 @@ Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQL
 
 **Compilar y ejecutar:**
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   bashgcc Naive.c -o naive  ./naive  gcc Strassen.c -o strassen  ./strassen   `
+gcc Naive.c -o naive
+./naive
+gcc Strassen.c -o strassen
+./strassen
 
 ### Python — Código principal
 
@@ -85,7 +89,8 @@ Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQL
 
 **Ejecutar:**
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   bashpython multiplicacion_matrices.py   `
+ bash
+ python multiplicacion_matrices.py   `
 
 ### C++ — Naive (1).cpp y Strassen.cpp
 
@@ -97,8 +102,9 @@ Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQL
     
 
 **Compilar y ejecutar:**
-
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   bashg++ "Naive (1).cpp" -o naive_cpp  ./naive_cpp  g++ Strassen.cpp -o strassen_cpp  ./strassen_cpp   `
+ bash
+ g++ "Naive.cpp" -o naive_cpp  ./naive_cpp  
+ g++ Strassen.cpp -o strassen_cpp  ./strassen_cpp   `
 
 Cómo usar el repositorio
 ------------------------
